@@ -1,6 +1,6 @@
 var express = require('express');
 var app = express();
-var sequelize = new Sequelize('postgres://user:pass@example.com:5432/dbname');
+//var sequelize = new Sequelize('postgres://user:pass@example.com:5432/dbname');
 
 app.get('/', function (req, res) {
   res.send('Hello World!');
