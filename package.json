@@ -1,0 +1,20 @@
+{
+  "name": "capture-api",
+  "version": "1.0.0",
+  "description": "Backend API for Capture",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arajeev/capture-api.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/arajeev/capture-api/issues"
+  },
+  "homepage": "https://github.com/arajeev/capture-api#readme"
+}
