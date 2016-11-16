@@ -114,8 +114,8 @@ Deletes the user with the given `id`.
 ## 2. Entries
 ### 2.1 List all journal entries for current user: [GET] `/journal/:uid/entries`
 #### Description
-- Endpoint: `/journal/all/:uid`
-    -- `userId` is the id of the user whose lists are being requested
+- Endpoint: `/journal/:uid/entries`
+    -- `userId` is the id of the user whose entries are being requested
 - Authentication: `[Admin, User]`
 
 #### Request:
@@ -150,7 +150,7 @@ Deletes the user with the given `id`.
 Get entry with the specified `entryid` from user with the specified `id`.
 - Endpoint: `/journal/:userId/entries/:entryId`
     - `userId`: identification for the target user.
-    - `listId`: identification for the target list.
+    - `entryId`: identification for the target entry.
 - Authentication: `[Admin, User]`
     - `token`: User token must be the one assigned to the target user or an admin token.
 
@@ -177,9 +177,9 @@ Get entry with the specified `entryid` from user with the specified `id`.
 - Success Code: `{200: 'Success'}`
 - Error Code: `{403: 'Forbidden', 404: 'NotFoundError'}`
 
-### 2.3 Create an entry: [POST] `/journal/:userId/list/create`
+### 2.3 Create an entry: [POST] `/journal/:userId/create`
 #### Description
-Creates a new list.
+Creates a new entry.
 - Endpoint: `/journal/:userId/create`
     - `userId`: identification for the target user.
 - Authentication: `[Admin, User]`
@@ -217,12 +217,12 @@ Creates a new list.
 - Success Code: `{201: 'Created'}`
 - Error Code: `{403: 'Forbidden', 409: 'ConflictError'}`
 
-### 2.4 Delete an entry: [DEL] `/journal/user/:userId/entries/:listId`
+### 2.4 Delete an entry: [DEL] `/journal/user/:userId/entries/:entryId`
 #### Description
 Deletes the entry with the given `id`.
-- Endpoint: `/journal/:userId/list/:listId`
+- Endpoint: `/journal/:userId/entries/:entryId`
     - `userId`: identification for the target user.
-    - `listId`: identification for the target list.
+    - `entryId`: identification for the target entry.
 - Authentication: `[Admin, User]`
 
 #### Request:
