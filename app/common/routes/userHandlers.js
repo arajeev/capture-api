@@ -140,9 +140,16 @@ module.exports = function (userHelpers, entryHelpers, authenticationHelpers) {
     */
 
     var login = function login(req, res, next){
+        // console.log(req.body);
+        // validateParams([
+        //     {name: 'username', in: req.body, required: true},
+        //     {name: 'password', in: req.body, required: true},
+        // ]).
+        // then(function () {
             res.json(200, req.user);
             next();
-    }
+        // }).catch(errors.ValidationError, sendError(httpErrors.NotFoundError, next));
+    };
 
     /*
     Request:

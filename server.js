@@ -42,6 +42,14 @@ var server = restify.createServer({
     log: restifyLogger,
 });
 
+server.use(
+  function crossOrigin(req,res,next){
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Authorization");
+    return next();
+  }
+);
+
 // Add audit logging
 server.on('after', restify.auditLogger({
     log: restifyLogger
@@ -63,7 +71,6 @@ server.opts(/\.*/, function (req, res, next) {
     res.send(200);
     next();
 });
-
 server.pre(restify.sanitizePath());
 server.use(function (req, res, next) {
     if ((req.method === "PUT" || req.method === "POST") && _.isUndefined(req.body)) {
@@ -74,14 +81,14 @@ server.use(function (req, res, next) {
 
 // Routes
 // User
-server.get('/user/all', /*passport.authenticate(['basic', 'bearer'], {session: false} ), */ userHandlers.allUsers); // User route: get all the users
-server.get('/user/:uid',/* passport.authenticate(['basic', 'bearer'], {session: false}) ,*/ userHandlers.userById); // User route: get user by the id
-server.post('/user/', userHandlers.login); // User route: get user by the id
+server.get('/user/all', passport.authenticate(['basic', 'bearer'], {session: false} ), userHandlers.allUsers); // User route: get all the users
+server.get('/user/:uid', passport.authenticate(['basic', 'bearer'], {session: false}), userHandlers.userById); // User route: get user by the id
+server.post('/user/', passport.authenticate(['basic', 'bearer'], {session: false}), userHandlers.login); // User route: get user by the id
 server.post('/user/create/', userHandlers.createUser); // User route: create a user
-server.del('/user/delete/:uid', /* passport.authenticate(['basic', 'bearer'] , {session: false}), */ userHandlers.deleteUser); // User route: create a user
+server.del('/user/delete/:uid', passport.authenticate(['basic', 'bearer'] , {session: false}), userHandlers.deleteUser); // User route: create a user
 
 // Entry
-server.get('/journal/:uid/entries', /* passport.authenticate(['basic', 'bearer'], {session: false}), */ entryHandlers.allEntries);
+server.get('/journal/:uid/entries', passport.authenticate(['basic', 'bearer'], {session: false}), entryHandlers.allEntries);
 server.get('/journal/:uid/entries/:eid', /* passport.authenticate(['basic', 'bearer'], {session: false}), */ entryHandlers.entryById);
 server.post('/journal/:uid/create', /*passport.authenticate(['basic', 'bearer'], {session: false}), */ entryHandlers.createEntry);
 server.del('/journal/:uid/entries/:eid', /* passport.authenticate(['basic', 'bearer'], {session: false}), */ entryHandlers.deleteEntry);
