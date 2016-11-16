@@ -13,7 +13,7 @@ Get all user information.
 #### Response:
 ```javascript
 {
-    users: [
+    entries: [
         {
             "uid": [INTEGER],
             "first_name": [STRING],
@@ -94,10 +94,10 @@ Creates a new user.
 - Success Code: `{201: 'Created'}`
 - Error Code: `{403: 'Forbidden', 409: 'ConflictError'}`
 
-### 1.4 Delete a user: [DEL] `/v1/user/delete/:id`
+### 1.4 Delete a user: [DEL] `/user/delete/:id`
 #### Description
 Deletes the user with the given `id`.
-- Endpoint: `/v1/user/delete/:id`
+- Endpoint: `/user/delete/:id`
 - Authentication: `[Admin, User]`
 
 #### Request:
@@ -111,11 +111,11 @@ Deletes the user with the given `id`.
 - Success Code: `{204: 'NoContent'}`
 - Error Code: `{403: 'Forbidden', 404: 'NotFoundError'}`
 
-## 2. Lists
+## 2. Entries
 ### 2.1 List all journal entries for current user: [GET] `/journal/:uid/entries`
 #### Description
-- Endpoint: `/journal/:uid/entries`
-    -- `uid` is the id of the user whose lists are being requested
+- Endpoint: `/journal/all/:uid`
+    -- `userId` is the id of the user whose lists are being requested
 - Authentication: `[Admin, User]`
 
 #### Request:
@@ -129,6 +129,8 @@ Deletes the user with the given `id`.
         {
             "eid": [INTEGER],
             "heading": [STRING],
+            "date": [STRING],
+            "time": [STRING],
             "uid": [INTEGER],
             "media": [STRING],
             "location": [STRING],
@@ -146,7 +148,7 @@ Deletes the user with the given `id`.
 ### 2.2 View a user: [GET] `/journal/:userId/entry/:entryId`
 #### Description
 Get entry with the specified `entryid` from user with the specified `id`.
-- Endpoint: `/journal/:userId/entry/:entryId`
+- Endpoint: `/journal/:userId/entries/:entryId`
     - `userId`: identification for the target user.
     - `listId`: identification for the target list.
 - Authentication: `[Admin, User]`
@@ -161,6 +163,8 @@ Get entry with the specified `entryid` from user with the specified `id`.
      {
         "eid": [INTEGER],
         "heading": [STRING],
+        "date": [STRING],
+        "time": [STRING],
         "uid": [INTEGER],
         "media": [STRING],
         "location": [STRING],
@@ -176,7 +180,7 @@ Get entry with the specified `entryid` from user with the specified `id`.
 ### 2.3 Create an entry: [POST] `/journal/:userId/list/create`
 #### Description
 Creates a new list.
-- Endpoint: `/journal/:userId/list/create`
+- Endpoint: `/journal/:userId/create`
     - `userId`: identification for the target user.
 - Authentication: `[Admin, User]`
 
@@ -186,6 +190,8 @@ Creates a new list.
 ```javascript
 {
     "heading": [STRING],
+    "date": [STRING],
+    "time": [STRING],
     "media": [STRING],
     "location": [STRING],
     "text": [STRING]
@@ -197,6 +203,8 @@ Creates a new list.
  {
     "eid": [INTEGER],
    "heading": [STRING],
+    "date": [STRING],
+    "time": [STRING],
     "uid": [INTEGER],
     "media": [STRING],
     "location": [STRING],
@@ -209,7 +217,7 @@ Creates a new list.
 - Success Code: `{201: 'Created'}`
 - Error Code: `{403: 'Forbidden', 409: 'ConflictError'}`
 
-### 2.4 Delete an entry: [DEL] `/journal/user/:userId/entry/:listId`
+### 2.4 Delete an entry: [DEL] `/journal/user/:userId/entries/:listId`
 #### Description
 Deletes the entry with the given `id`.
 - Endpoint: `/journal/:userId/list/:listId`

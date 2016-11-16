@@ -14,7 +14,7 @@ var userHelpers = require('./app/helpers/userHelpers')(models, authenticationHel
 var entryHelpers = require('./app/helpers/entryHelpers')(models, authenticationHelpers);
 
 var userHandlers = require('./app/routes/userHandlers')(userHelpers, entryHelpers, authenticationHelpers);
-var entryHandlers = require('./app/routes/entryHandlers')(entryHelpers);
+var entryHandlers = require('./app/routes/entryHandlers')(userHelpers, entryHelpers);
 
 var passport = require('passport');
 

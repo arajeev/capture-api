@@ -34,9 +34,12 @@ module.exports = function (models, authenticationHelpers) {
     };
 
     var getUserById = function getUserById(id) {
-        return models.User.findById(id).then(function (user) {
+        return models.User.find({
+            where: {uid: id}
+        }).then(function (user) {
+            console.log(user);
             if (user === null) {
-                throw new errors.UserNotFoundError(filter);
+                throw new errors.UserNotFoundError(id);
             } else {
                 return user;
             }

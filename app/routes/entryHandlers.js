@@ -6,20 +6,25 @@ var errors = require('../common/errors');
 var sendError = require('../common/sendError');
 var validateParams = require('../common/validateParams');
 
-module.exports = function (entryHelpers) {
+module.exports = function (userHelpers, entryHelpers) {
 
     var allEntries = function allEntries(req, res, next) {
-        entryHelpers.getEntries(req.user)
+        userHelpers.getUserById(req.params.uid)
+        .then(function(user) {
+            entryHelpers.getEntries(user)
             .then(function(entries){
                 res.json(200, {
                     "entries": entries
                 });
                 next();
             });
+        });
     };
 
     var entryById = function entryById(req, res, next) {
-        entryHelpers.getEntryById(req.user, req.params.eid)
+        userHelpers.getUserById(req.params.uid)
+        .then(function(user) {
+            entryHelpers.getEntryById(user, req.params.eid)
             .then(function(entries){
                 if (entries.length == 0){
                     throw new errors.EntryNotFoundError(req.params.eid);
@@ -28,49 +33,59 @@ module.exports = function (entryHelpers) {
                     next();
                 }
             }).catch(errors.EntryNotFoundError, sendError(httpErrors.NotFoundError, next));
+        });
     };
 
     var createEntry = function createEntry(req, res, next) {
+        // console.log('heading' in req.body);
         validateParams([
-            {name: 'heading', in: req.body, required: true},
-            {name: 'media', in: req.body, required: true},
-            {name: 'location', in: req.body, required: true},
-            {name: 'text', in: req.body, required: true},
+            {name: 'heading', in: req.body, required: false},
+            {name: 'media', in: req.body, required: false},
+            {name: 'location', in: req.body, required: false},
+            {name: 'text', in: req.body, required: false},
+            {name: 'media', in: req.body, required: false},
+            {name: 'location', in: req.body, required: false}
         ]).then(function () {
             var entryInfo = _.pick(
                 req.body,
                 'heading',
                 'media',
                 'location',
-                'text'
+                'text',
+                'media',
+                'location'
             );
-            entryHelpers.createEntry(req.user, entryInfo)
+            userHelpers.getUserById(req.params.uid)
+            .then(function(user) {
+                entryHelpers.createEntry(user, entryInfo)
                 .then(function(entry){
                     res.json(201, entry);
                     next();
                 }).catch(errors.DuplicateEntryError, sendError(httpErrors.ConflictError, next));
-        });
-    };
+            });
+        })};
 
-    var deleteEntry = function deleteEntry(req, res, next) {
-        req.user.getEntries({where: {eid: req.params.eid}})
-            .then(function(entries){
-                if (entries.length == 0){
-                    throw new errors.EntryNotFoundError(req.params.eid);
-                } else {
-                    entries[0].destroy()
+        var deleteEntry = function deleteEntry(req, res, next) {
+            userHelpers.getUserById(req.params.uid)
+            .then(function(user) {
+                user.getEntries({where: {eid: req.params.eid}})
+                .then(function(entries){
+                    if (entries.length == 0){
+                        throw new errors.EntryNotFoundError(req.params.eid);
+                    } else {
+                        entries[0].destroy()
                         .then(function(){
                             res.json(204);
                             next();
                         });
-                }
-            }).catch(errors.EntryNotFoundError, sendError(httpErrors.NotFoundError, next));
+                    }
+                }).catch(errors.EntryNotFoundError, sendError(httpErrors.NotFoundError, next));
+            });
     };
-
-    return {
-        allEntries: allEntries,
-        entryById: entryById,
-        createEntry: createEntry,
-        deleteEntry: deleteEntry
+        return {
+            allEntries: allEntries,
+            entryById: entryById,
+            createEntry: createEntry,
+            deleteEntry: deleteEntry
+        };
     };
-};

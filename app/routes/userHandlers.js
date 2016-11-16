@@ -58,8 +58,10 @@ module.exports = function (userHelpers, entryHelpers, authenticationHelpers) {
         // req.user would have had a value but authentication is turned off. Thus that cb is not
         // hit.
         // TODO: Validate params
-        res.json(200, userHelpers.getUserById(req.params.uid));
-        next();
+        userHelpers.getUserById(req.params.uid).then(function(user){
+            res.json({"user" : user});
+            next();
+        });
     };
 
     /*

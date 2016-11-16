@@ -8,8 +8,11 @@ module.exports = function (models, authenticationHelpers) {
 
     // Returns lists for the given user
     var getEntries = function getEntries(user) {
+        console.log("USER---" , user);
         return user.getEntries(function(entries){
             return entries;
+        }).then(function(entries) {
+            return entries[0];
         });
     };
 
@@ -17,8 +20,10 @@ module.exports = function (models, authenticationHelpers) {
     var getEntryById = function getEntryById(user, entryId){
         return user.getEntries({
             where: {
-                id: entryId
+                eid: entryId
             }
+        }).then(function(entries) {
+            return entries[0];
         });
     };
 
@@ -51,9 +56,18 @@ module.exports = function (models, authenticationHelpers) {
         });
     };
 
+    var deleteEntry = function deleteEntry(req, res, next) {
+       userHelpers.deleteUser(req.params.id)
+           .then(function () {
+               res.send(204);
+               next();
+           });
+   };
+
     return {
         getEntries: getEntries,
         getEntryById: getEntryById,
-        createEntry: createEntry
+        createEntry: createEntry,
+        deleteEntry: deleteEntry
     };
 };
