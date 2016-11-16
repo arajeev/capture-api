@@ -48,29 +48,29 @@ module.exports = function (models, authenticationHelpers) {
 
     var createUser = function createUser(userInfo) {
         return getUserByFilter({username: userInfo.username})
-            .then(function () {
-                throw new errors.UserExistsError(userInfo.username);
-            }).catch(errors.UserNotFoundError, function () {
-                userInfo.token = authenticationHelpers.encodePayload(userInfo);
-                userInfo.password = authenticationHelpers.generateHashedPassword(userInfo.password);
-                return models.User.create({
-                    first_name: userInfo.first_name,
-                    last_name: userInfo.last_name,
-                    email: userInfo.email,
-                    username: userInfo.username,
-                    password: userInfo.password,
-                    token: userInfo.token,
-                });
+        .then(function () {
+            throw new errors.UserExistsError(userInfo.username);
+        }).catch(errors.UserNotFoundError, function () {
+            userInfo.token = authenticationHelpers.encodePayload(userInfo);
+            userInfo.password = authenticationHelpers.generateHashedPassword(userInfo.password);
+            return models.User.create({
+                first_name: userInfo.first_name,
+                last_name: userInfo.last_name,
+                email: userInfo.email,
+                username: userInfo.username,
+                password: userInfo.password,
+                token: userInfo.token,
             });
+        });
     };
 
     var deleteUser = function deleteUser(userId) {
         return models.User.find({where: {uid: userId}})
-            .then(function (user) {
-                if (!_.isNull(user)) {
-                    return user.destroy();
-                }
-            });
+        .then(function (user) {
+            if (!_.isNull(user)) {
+                return user.destroy();
+            }
+        });
     };
 
     return {

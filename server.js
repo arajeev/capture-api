@@ -74,7 +74,7 @@ server.use(function (req, res, next) {
 
 // Routes
 // User
-server.get('/user/all', /* passport.authenticate(['basic', 'bearer'], {session: false} ) ,*/ userHandlers.allUsers); // User route: get all the users
+server.get('/user/all', /*passport.authenticate(['basic', 'bearer'], {session: false} ), */ userHandlers.allUsers); // User route: get all the users
 server.get('/user/:uid',/* passport.authenticate(['basic', 'bearer'], {session: false}) ,*/ userHandlers.userById); // User route: get user by the id
 server.post('/user/', userHandlers.login); // User route: get user by the id
 server.post('/user/create/', userHandlers.createUser); // User route: create a user

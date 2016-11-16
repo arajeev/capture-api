@@ -111,6 +111,29 @@ Deletes the user with the given `id`.
 - Success Code: `{204: 'NoContent'}`
 - Error Code: `{403: 'Forbidden', 404: 'NotFoundError'}`
 
+### 1.5 Login: [POST] `/user/login`
+#### Description
+Login the user.
+- Endpoint: `/user/login`
+- Authentication:
+
+#### Request:
+- Header: `{'Authorization': 'Bearer TOKEN'}`
+- Params: `id` of the user to be deleted.
+- Body:
+```javascript
+`{
+            username: [STRING],
+            password: [STRING]
+}`
+```
+
+#### Response:
+- body: `{}`
+#### Response Status Codes:
+- Success Code: `{204: 'NoContent'}`
+- Error Code: `{403: 'Forbidden', 404: 'NotFoundError'}`
+
 ## 2. Entries
 ### 2.1 List all journal entries for current user: [GET] `/journal/:uid/entries`
 #### Description

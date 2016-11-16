@@ -92,11 +92,11 @@ module.exports = function (userHelpers, entryHelpers, authenticationHelpers) {
     */
     var createUser = function createUser(req, res, next) {
         validateParams([
-            {name: 'first_name', in: req.body, required: true},
-            {name: 'last_name', in: req.body, required: true},
-            {name: 'email', in: req.body, required: true},
-            {name: 'username', in: req.body, required: true},
-            {name: 'password', in: req.body, required: true},
+            {name: 'first_name', in: req.body, required: false},
+            {name: 'last_name', in: req.body, required: false},
+            {name: 'email', in: req.body, required: false},
+            {name: 'username', in: req.body, required: false},
+            {name: 'password', in: req.body, required: false},
         ]).then(function () {
             var userInfo = _.pick(
                 req.body,
@@ -106,6 +106,7 @@ module.exports = function (userHelpers, entryHelpers, authenticationHelpers) {
                 'username',
                 'password'
             );
+            console.log("USER INFO ------------------", userInfo);
             userHelpers.createUser(userInfo)
                 .then(function (user) {
                     entryHelpers.createEntry(user, {
@@ -124,6 +125,19 @@ module.exports = function (userHelpers, entryHelpers, authenticationHelpers) {
         }).catch(errors.ValidationError, sendError(httpErrors.NotFoundError, next));
     };
 
+    /*
+    Request:
+        params: id of user to be deleted
+        header: admin_token
+        body: {}
+    Response:
+        Success:
+        204 - No content
+        Failure:
+        401 - UnauthorizedError
+        403 - ForbiddenError
+        body: {}
+    */
 
     var login = function login(req, res, next){
         validateParams([
