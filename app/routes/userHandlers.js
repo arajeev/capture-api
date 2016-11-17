@@ -59,9 +59,17 @@ module.exports = function (userHelpers, entryHelpers, authenticationHelpers) {
         // hit.
         // TODO: Validate params
         userHelpers.getUserById(req.params.uid).then(function(user){
+            // if the user is not an admin and is not accessing their own user info
+            console.log(req.user.group, "------------", parseInt(req.user.uid));
+            if(! _.isEqual(user.uid, parseInt(req.user.uid)) && req.user.group !== 'admin') {
+                res.json(403, 'Unauthorized');
+                next();
+                return;
+            }
+
             res.json({"user" : user});
             next();
-        });
+        }).catch(errors.UserNotFoundError, sendError(httpErrors.NotFoundError, next));
     };
 
     /*
@@ -92,11 +100,12 @@ module.exports = function (userHelpers, entryHelpers, authenticationHelpers) {
     */
     var createUser = function createUser(req, res, next) {
         validateParams([
-            {name: 'first_name', in: req.body, required: false},
-            {name: 'last_name', in: req.body, required: false},
-            {name: 'email', in: req.body, required: false},
-            {name: 'username', in: req.body, required: false},
-            {name: 'password', in: req.body, required: false},
+            {name: 'first_name', in: req.body, required: true},
+            {name: 'last_name', in: req.body, required: true},
+            {name: 'email', in: req.body, required: true},
+            {name: 'username', in: req.body, required: true},
+            {name: 'password', in: req.body, required: true},
+            {name: 'group', in: req.body, required: true},
         ]).then(function () {
             var userInfo = _.pick(
                 req.body,
@@ -104,7 +113,8 @@ module.exports = function (userHelpers, entryHelpers, authenticationHelpers) {
                 'last_name',
                 'email',
                 'username',
-                'password'
+                'password',
+                'group'
             );
             console.log("USER INFO ------------------", userInfo);
             userHelpers.createUser(userInfo)
@@ -115,7 +125,7 @@ module.exports = function (userHelpers, entryHelpers, authenticationHelpers) {
                         "date": "date",
                         "media": "-",
                         "location": "-",
-                        "time": "12:00"
+                        "time": "12:00",
                     }).then(function(entry){
                         user.addEntry(entry);
                         res.json(201, user);
@@ -158,11 +168,20 @@ module.exports = function (userHelpers, entryHelpers, authenticationHelpers) {
         body: {}
     */
     var deleteUser = function deleteUser(req, res, next) {
-        userHelpers.deleteUser(req.params.uid)
-            .then(function () {
-                res.send(204);
-                next();
-            });
+        userHelpers.getUserById(req.params.uid)
+            .then(function (user) {
+                if(! _.isEqual(user.uid, parseInt(req.user.uid)) && req.user.group !== 'admin') {
+                    res.json(403, 'Unauthorized');
+                    next();
+                    return;
+                }
+
+                userHelpers.deleteUser(req.params.uid)
+                .then(function (){
+                    res.send(204, 'Deleted');
+                    next();
+                });
+            }).catch(errors.UserNotFoundError, sendError(httpErrors.NotFoundError, next));
     };
 
     return {

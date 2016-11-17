@@ -79,12 +79,24 @@ server.use(function (req, res, next) {
     next();
 });
 
+var needsGroup = function(group) {
+    return [
+       passport.authenticate('basic', {session: false}),
+       function(req, res, next) {
+         if (req.user && req.user.group === group)
+           next();
+         else
+           res.send(403, 'Unauthorized');
+       }
+     ];
+};
+
 // Routes
 // User
-server.get('/user/all', passport.authenticate(['basic', 'bearer'], {session: false} ), userHandlers.allUsers); // User route: get all the users
+server.get('/user/all', needsGroup('admin'), userHandlers.allUsers); // User route: get all the users
 server.get('/user/:uid', passport.authenticate(['basic', 'bearer'], {session: false}), userHandlers.userById); // User route: get user by the id
 server.post('/user/', passport.authenticate(['basic', 'bearer'], {session: false}), userHandlers.login); // User route: get user by the id
-server.post('/user/create/', userHandlers.createUser); // User route: create a user
+server.post('/user/create/', needsGroup('admin'), userHandlers.createUser); // User route: create a user
 server.del('/user/delete/:uid', passport.authenticate(['basic', 'bearer'] , {session: false}), userHandlers.deleteUser); // User route: create a user
 
 // Entry

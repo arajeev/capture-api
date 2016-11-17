@@ -9,6 +9,7 @@ module.exports = function (sequelize, DataTypes) {
         username: {type: DataTypes.STRING},
         password: {type: DataTypes.STRING},
         token: {type: DataTypes.STRING},
+        group: {type: DataTypes.STRING}
     }, {
         timestamps: true,
         classMethods: {

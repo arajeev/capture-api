@@ -37,9 +37,9 @@ module.exports = function (models, authenticationHelpers) {
         return models.User.find({
             where: {uid: id}
         }).then(function (user) {
-            console.log(user);
+            console.log('USER---------------', user);
             if (user === null) {
-                throw new errors.UserNotFoundError(id);
+                throw new errors.UserNotFoundError({id: id});
             } else {
                 return user;
             }
@@ -60,6 +60,7 @@ module.exports = function (models, authenticationHelpers) {
                 username: userInfo.username,
                 password: userInfo.password,
                 token: userInfo.token,
+                group: userInfo.group
             });
         });
     };

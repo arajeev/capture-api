@@ -9,16 +9,13 @@ var validateParams = require('../common/validateParams');
 module.exports = function (userHelpers, entryHelpers) {
 
     var allEntries = function allEntries(req, res, next) {
-        userHelpers.getUserById(req.params.uid)
-        .then(function(user) {
-            entryHelpers.getEntries(user)
-            .then(function(entries){
-                res.json(200, {
-                    "entries": entries
-                });
-                next();
+        entryHelpers.getEntries(req.user)
+        .then(function(entries){
+            res.json(200, {
+                "entries": entries
             });
-        });
+            next();
+        }).catch(errors.EntryNotFoundError, sendError(httpErrors.NotFoundError, next));
     };
 
     var entryById = function entryById(req, res, next) {
@@ -37,14 +34,12 @@ module.exports = function (userHelpers, entryHelpers) {
     };
 
     var createEntry = function createEntry(req, res, next) {
-        // console.log('heading' in req.body);
         validateParams([
-            {name: 'heading', in: req.body, required: false},
-            {name: 'media', in: req.body, required: false},
-            {name: 'location', in: req.body, required: false},
-            {name: 'text', in: req.body, required: false},
-            {name: 'media', in: req.body, required: false},
-            {name: 'location', in: req.body, required: false}
+            {name: 'heading', in: req.body, required: true},
+            {name: 'media', in: req.body, required: true},
+            {name: 'location', in: req.body, required: true},
+            {name: 'text', in: req.body, required: true},
+            {name: 'media', in: req.body, required: true}
         ]).then(function () {
             var entryInfo = _.pick(
                 req.body,
@@ -52,8 +47,7 @@ module.exports = function (userHelpers, entryHelpers) {
                 'media',
                 'location',
                 'text',
-                'media',
-                'location'
+                'media'
             );
             userHelpers.getUserById(req.params.uid)
             .then(function(user) {
@@ -81,7 +75,7 @@ module.exports = function (userHelpers, entryHelpers) {
                     }
                 }).catch(errors.EntryNotFoundError, sendError(httpErrors.NotFoundError, next));
             });
-    };
+        };
         return {
             allEntries: allEntries,
             entryById: entryById,

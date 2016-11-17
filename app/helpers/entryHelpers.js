@@ -8,7 +8,6 @@ module.exports = function (models, authenticationHelpers) {
 
     // Returns lists for the given user
     var getEntries = function getEntries(user) {
-        console.log("USER---" , user);
         return user.getEntries(function(entries){
             return entries;
         }).then(function(entries) {
