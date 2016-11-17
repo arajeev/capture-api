@@ -210,7 +210,7 @@ Creates a new entry.
     - `userId`: identification for the target user.
 - Authentication: `[Admin, User]`
 - media is a comma-separated list of media urls.
--
+
 #### Request:
 - Header: `{'Authorization': 'Bearer TOKEN'}`
 - Body:
