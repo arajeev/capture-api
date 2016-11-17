@@ -19,18 +19,16 @@ module.exports = function (userHelpers, entryHelpers) {
     };
 
     var entryById = function entryById(req, res, next) {
-        userHelpers.getUserById(req.params.uid)
-        .then(function(user) {
-            entryHelpers.getEntryById(user, req.params.eid)
-            .then(function(entries){
-                if (entries.length == 0){
-                    throw new errors.EntryNotFoundError(req.params.eid);
-                } else {
-                    res.json(200, {"entry": entries[0]});
-                    next();
-                }
-            }).catch(errors.EntryNotFoundError, sendError(httpErrors.NotFoundError, next));
-        });
+        entryHelpers.getEntryById(req.user, req.params.eid)
+        .then(function(entry){
+            console.log("ENTRIES --------", entry);
+            if (!entry){
+                throw new errors.EntryNotFoundError(req.params.eid);
+            } else {
+                res.json(200, {"entry": entry});
+                next();
+            }
+        }).catch(errors.EntryNotFoundError, sendError(httpErrors.NotFoundError, next));
     };
 
     var createEntry = function createEntry(req, res, next) {
@@ -49,32 +47,27 @@ module.exports = function (userHelpers, entryHelpers) {
                 'text',
                 'media'
             );
-            userHelpers.getUserById(req.params.uid)
-            .then(function(user) {
-                entryHelpers.createEntry(user, entryInfo)
-                .then(function(entry){
-                    res.json(201, entry);
-                    next();
-                }).catch(errors.DuplicateEntryError, sendError(httpErrors.ConflictError, next));
-            });
+            console.log("USER -----", entryInfo.date);
+            entryHelpers.createEntry(req.user, entryInfo)
+            .then(function(entry){
+                res.json(201, entry);
+                next();
+            }).catch(errors.DuplicateEntryError, sendError(httpErrors.ConflictError, next));
         })};
 
         var deleteEntry = function deleteEntry(req, res, next) {
-            userHelpers.getUserById(req.params.uid)
-            .then(function(user) {
-                user.getEntries({where: {eid: req.params.eid}})
+            req.user.getEntries({where: {eid: req.params.eid}})
                 .then(function(entries){
                     if (entries.length == 0){
                         throw new errors.EntryNotFoundError(req.params.eid);
                     } else {
                         entries[0].destroy()
                         .then(function(){
-                            res.json(204);
+                            res.json(204, 'Deleted');
                             next();
                         });
                     }
                 }).catch(errors.EntryNotFoundError, sendError(httpErrors.NotFoundError, next));
-            });
         };
         return {
             allEntries: allEntries,

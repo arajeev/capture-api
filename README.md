@@ -141,14 +141,13 @@ Login the user.
 - Error Code: `{401: 'Unauthorized'}`
 
 ## 2. Entries
-### 2.1 List all journal entries for current user: [GET] `/journal/:uid/entries`
+### 2.1 List all journal entries for current user: [GET] `/journal/entries`
 #### Description
-- Endpoint: `/journal/:uid/entries`
-    -- `userId` is the id of the user whose entries are being requested
+- Endpoint: `/journal/entries`
 - Authentication: `[Admin, User]`
 
 #### Request:
-- Header: `{'Authorization': 'Bearer TOKEN'}`
+- Header: `{'Authorization': 'Basic TOKEN'}`
 - Body: `{}`
 
 #### Response:
@@ -171,20 +170,18 @@ Login the user.
 }
 ```
 #### Response Status Codes:
-- Success Code: `{200: 'Success'}`
-- Error Code: `{403: 'Forbidden'}`
+- Success Code: `{200: 'OK'}`
+- Error Code: `{401: 'Unauthorized'}`
 
-### 2.2 View a user: [GET] `/journal/:userId/entry/:entryId`
+### 2.2 Get specific entry of current user: [GET] `/journal/entries/:entryId`
 #### Description
-Get entry with the specified `entryid` from user with the specified `id`.
-- Endpoint: `/journal/:userId/entries/:entryId`
-    - `userId`: identification for the target user.
+Get entry with the specified `entryid` from current user.
+- Endpoint: `/journal/entries/:entryId`
     - `entryId`: identification for the target entry.
 - Authentication: `[Admin, User]`
-    - `token`: User token must be the one assigned to the target user or an admin token.
 
 #### Request:
-- Header: `{'Authorization': 'Bearer TOKEN'}`
+- Header: `{'Authorization': 'Basic TOKEN'}`
 - Body: `{}`
 
 #### Response:
@@ -203,24 +200,23 @@ Get entry with the specified `entryid` from user with the specified `id`.
     }
 ```
 #### Response Status Codes:
-- Success Code: `{200: 'Success'}`
-- Error Code: `{403: 'Forbidden', 404: 'NotFoundError'}`
+- Success Code: `{200: 'OK'}`
+- Error Code: `{401: 'Unauthorized', 404: 'NotFoundError'}`
 
-### 2.3 Create an entry: [POST] `/journal/:userId/create`
+### 2.3 Create an entry: [POST] `/journal/create`
 #### Description
 Creates a new entry.
-- Endpoint: `/journal/:userId/create`
+- Endpoint: `/journal/create`
     - `userId`: identification for the target user.
 - Authentication: `[Admin, User]`
-
+- media is a comma-separated list of media urls.
+-
 #### Request:
 - Header: `{'Authorization': 'Bearer TOKEN'}`
 - Body:
 ```javascript
 {
     "heading": [STRING],
-    "date": [STRING],
-    "time": [STRING],
     "media": [STRING],
     "location": [STRING],
     "text": [STRING]
@@ -232,9 +228,6 @@ Creates a new entry.
  {
     "eid": [INTEGER],
    "heading": [STRING],
-    "date": [STRING],
-    "time": [STRING],
-    "uid": [INTEGER],
     "media": [STRING],
     "location": [STRING],
     "updatedAt": [STRING],
@@ -244,18 +237,17 @@ Creates a new entry.
 ```
 #### Response Status Codes:
 - Success Code: `{201: 'Created'}`
-- Error Code: `{403: 'Forbidden', 409: 'ConflictError'}`
+- Error Code: `{401: 'Unauthorized'}`
 
-### 2.4 Delete an entry: [DEL] `/journal/user/:userId/entries/:entryId`
+### 2.4 Delete an entry: [DEL] `/journal/delete/:entryId`
 #### Description
 Deletes the entry with the given `id`.
-- Endpoint: `/journal/:userId/entries/:entryId`
-    - `userId`: identification for the target user.
+- Endpoint: `/journal/entries/:entryId`
     - `entryId`: identification for the target entry.
 - Authentication: `[Admin, User]`
 
 #### Request:
-- Header: `{'Authorization': 'Bearer TOKEN'}`
+- Header: `{'Authorization': 'Basic TOKEN'}`
 - Params: `id` of the user to be deleted.
 - Body: `{}`
 
@@ -263,4 +255,4 @@ Deletes the entry with the given `id`.
 - body: `{}`
 #### Response Status Codes:
 - Success Code: `{204: 'NoContent'}`
-- Error Code: `{403: 'Forbidden', 404: 'NotFoundError'}`
+- Error Code: `{401: 'Unauthorized', 404: 'NotFoundError'}`

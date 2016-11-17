@@ -11,7 +11,7 @@ module.exports = function (models, authenticationHelpers) {
         return user.getEntries(function(entries){
             return entries;
         }).then(function(entries) {
-            return entries[0];
+            return entries;
         });
     };
 
