@@ -5,7 +5,8 @@ module.exports = function (sequelize, DataTypes) {
         eid: {type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true},
         heading: {type: DataTypes.STRING},
         media: {type: DataTypes.STRING},
-        location: {type: DataTypes.STRING},
+        loc_longitude: {type: DataTypes.FLOAT},
+        loc_latitude: {type: DataTypes.FLOAT},
         text: {type: DataTypes.STRING}
     }, {
         timestamps: true,

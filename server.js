@@ -96,7 +96,7 @@ var needsGroup = function(group) {
 server.get('/user/all', needsGroup('admin'), userHandlers.allUsers); // User route: get all the users
 server.get('/user/:uid', passport.authenticate(['basic', 'bearer'], {session: false}), userHandlers.userById); // User route: get user by the id
 server.post('/user/', passport.authenticate(['basic', 'bearer'], {session: false}), userHandlers.login); // User route: get user by the id
-server.post('/user/create/', needsGroup('admin'), userHandlers.createUser); // User route: create a user
+server.post('/user/create/',/* needsGroup('admin')*/ userHandlers.createUser); // User route: create a user
 server.del('/user/delete/:uid', passport.authenticate(['basic', 'bearer'] , {session: false}), userHandlers.deleteUser); // User route: create a user
 
 // Entry

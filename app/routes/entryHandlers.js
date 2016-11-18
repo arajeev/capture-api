@@ -35,7 +35,8 @@ module.exports = function (userHelpers, entryHelpers) {
         validateParams([
             {name: 'heading', in: req.body, required: true},
             {name: 'media', in: req.body, required: true},
-            {name: 'location', in: req.body, required: true},
+            {name: 'loc_latitude', in: req.body, required: true},
+            {name: 'loc_longitude', in: req.body, required: true},
             {name: 'text', in: req.body, required: true},
             {name: 'media', in: req.body, required: true}
         ]).then(function () {
@@ -43,11 +44,12 @@ module.exports = function (userHelpers, entryHelpers) {
                 req.body,
                 'heading',
                 'media',
-                'location',
+                'loc_latitude',
+                'loc_longitude',
                 'text',
                 'media'
             );
-            console.log("USER -----", entryInfo.date);
+
             entryHelpers.createEntry(req.user, entryInfo)
             .then(function(entry){
                 res.json(201, entry);

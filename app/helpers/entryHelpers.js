@@ -48,7 +48,8 @@ module.exports = function (models, authenticationHelpers) {
             date: entryInfo.date,
             time: entryInfo.time,
             media: entryInfo.media,
-            location: entryInfo.location
+            loc_latitude: entryInfo.loc_latitude,
+            loc_longitude: entryInfo.loc_longitude
         }).then(function(entry){
             user.addEntry(entry);
             return entry;

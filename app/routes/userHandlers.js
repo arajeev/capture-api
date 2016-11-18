@@ -119,18 +119,8 @@ module.exports = function (userHelpers, entryHelpers, authenticationHelpers) {
             console.log("USER INFO ------------------", userInfo);
             userHelpers.createUser(userInfo)
                 .then(function (user) {
-                    entryHelpers.createEntry(user, {
-                        "name": "Sample Entry",
-                        "text": "Default text",
-                        "date": "date",
-                        "media": "-",
-                        "location": "-",
-                        "time": "12:00",
-                    }).then(function(entry){
-                        user.addEntry(entry);
-                        res.json(201, user);
-                        next();
-                    });
+                    res.json(201, user);
+                    next();
                 }).catch(errors.UserExistsError, sendError(httpErrors.ConflictError, next));
         }).catch(errors.ValidationError, sendError(httpErrors.NotFoundError, next));
     };
@@ -181,7 +171,7 @@ module.exports = function (userHelpers, entryHelpers, authenticationHelpers) {
                     res.send(204, 'Deleted');
                     next();
                 });
-            }).catch(errors.UserNotFoundError, sendError(httpErrors.NotFoundError, next));
+            }).v;
     };
 
     return {

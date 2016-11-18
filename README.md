@@ -193,7 +193,8 @@ Get entry with the specified `entryid` from current user.
         "time": [STRING],
         "uid": [INTEGER],
         "media": [STRING],
-        "location": [STRING],
+        "loc_latitude": [FLOAT],
+        "loc_longitude": [FLOAT],
         "updatedAt": [STRING],
         "createdAt": [STRING],
         "text": [STRING]
@@ -218,7 +219,8 @@ Creates a new entry.
 {
     "heading": [STRING],
     "media": [STRING],
-    "location": [STRING],
+    "loc_latitude": [FLOAT],
+    "loc_longitude": [FLOAT],
     "text": [STRING]
 }
 ```
@@ -229,7 +231,8 @@ Creates a new entry.
     "eid": [INTEGER],
    "heading": [STRING],
     "media": [STRING],
-    "location": [STRING],
+    "loc_latitude": [FLOAT],
+    "loc_longitude": [FLOAT],
     "updatedAt": [STRING],
     "createdAt": [STRING],
     "text": [STRING]
