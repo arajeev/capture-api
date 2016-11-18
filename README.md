@@ -157,8 +157,6 @@ Login the user.
         {
             "eid": [INTEGER],
             "heading": [STRING],
-            "date": [STRING],
-            "time": [STRING],
             "uid": [INTEGER],
             "media": [STRING],
             "location": [STRING],
@@ -189,8 +187,6 @@ Get entry with the specified `entryid` from current user.
      {
         "eid": [INTEGER],
         "heading": [STRING],
-        "date": [STRING],
-        "time": [STRING],
         "uid": [INTEGER],
         "media": [STRING],
         "loc_latitude": [FLOAT],
@@ -259,3 +255,6 @@ Deletes the entry with the given `id`.
 #### Response Status Codes:
 - Success Code: `{204: 'NoContent'}`
 - Error Code: `{401: 'Unauthorized', 404: 'NotFoundError'}`
+
+
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/ccb8fcd6415bf48065f2)

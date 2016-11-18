@@ -42,15 +42,6 @@ module.exports = function (userHelpers, entryHelpers) {
             {name: 'text', in: req.body, required: false},
             {name: 'media', in: req.body, required: false}
         ]).then(function () {
-            var body = {
-	heading:'My favorite day',
-	text:'This is amazing!',
-	date:'2016-08-01',
-	time:'15:21',
-	media:'none',
-	location:'Waterloo'
-};
-            var heading = body['media'];
             var entryInfo = _.pick(
                 req.body,
                 ['heading',
@@ -59,8 +50,6 @@ module.exports = function (userHelpers, entryHelpers) {
                 'text',
                 'media']
             );
-            console.log("ENTRY INFO:--------- ", body);
-            console.log("ENTRY INFO:--------- ", req.body);
             entryHelpers.createEntry(req.user, entryInfo)
                 .then(function(entry){
                     res.json(201, entry);

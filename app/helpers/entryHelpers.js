@@ -31,22 +31,20 @@ module.exports = function (models, authenticationHelpers) {
     //     {
     //     "eid": [INTEGER],
     //     "heading": [STRING],
-    //     "date": [STRING],
-    //     "time": [STRING],
     //     "uid": [INTEGER],
     //     "media": [STRING],
-    //     "location": [STRING],
+    //     "loc_latitude": [FLOAT],
+    //     "loc_longitude": [FLOAT],
     //     "updatedAt": [STRING],
     //     "createdAt": [STRING],
     //     "text": [STRING]
     //     }
     // }
+    
     var createEntry = function createEntry(user, entryInfo){
         return models.Entry.create({
             heading: entryInfo.heading,
             text: entryInfo.text,
-            date: entryInfo.date,
-            time: entryInfo.time,
             media: entryInfo.media,
             loc_latitude: entryInfo.loc_latitude,
             loc_longitude: entryInfo.loc_longitude
