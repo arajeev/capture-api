@@ -14,6 +14,7 @@ module.exports = function (models, authenticationHelpers) {
             return entries;
         });
     };
+    
 
     // Gets a list by the id
     var getEntryById = function getEntryById(user, entryId){
@@ -40,7 +41,7 @@ module.exports = function (models, authenticationHelpers) {
     //     "text": [STRING]
     //     }
     // }
-    
+
     var createEntry = function createEntry(user, entryInfo){
         return models.Entry.create({
             heading: entryInfo.heading,
