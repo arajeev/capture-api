@@ -13,10 +13,10 @@
     "database": "captureDb",
     "driver": "mysql"
   },
-  "travis": {
+  "prod": {
     "host": "localhost",
     "user": "root",
-    "password": "",
+    "password": "capture",
     "database": "captureDb",
     "driver": "mysql"
   }
