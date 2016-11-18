@@ -51,7 +51,8 @@ module.exports = function (models, authenticationHelpers) {
         return getUserByFilter({username: userInfo.username})
         .then(function () {
             throw new errors.UserExistsError(userInfo.username);
-        }).catch(errors.UserNotFoundError, function (userInfo) {
+        }).catch(errors.UserNotFoundError, function () {
+            console.log('USER---------------', userInfo);
             userInfo.token = authenticationHelpers.encodePayload(userInfo);
             userInfo.password = authenticationHelpers.generateHashedPassword(userInfo.password);
             return models.User.create({
