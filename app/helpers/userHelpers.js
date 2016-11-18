@@ -25,6 +25,7 @@ module.exports = function (models, authenticationHelpers) {
         return models.User.find({
             where: filter,
         }).then(function (user) {
+            console.log('USER FILTER---------------', user);
             if (user === null) {
                 throw new errors.UserNotFoundError(filter);
             } else {
