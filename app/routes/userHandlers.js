@@ -114,7 +114,7 @@ module.exports = function (userHelpers, entryHelpers, authenticationHelpers) {
                 'email',
                 'username',
                 'password',
-            'group'
+                'group'
             );
             console.log("USER INFO ------------------", userInfo);
             userHelpers.createUser(userInfo)
