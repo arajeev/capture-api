@@ -1,4 +1,3 @@
-// TODO:@Wasiur repurpose this logic
 "use strict";
 
 var _ = require('lodash');

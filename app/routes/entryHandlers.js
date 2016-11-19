@@ -71,10 +71,24 @@ module.exports = function (userHelpers, entryHelpers) {
                     }
                 }).catch(errors.EntryNotFoundError, sendError(httpErrors.NotFoundError, next));
         };
+
+        var editEntry = function editEntry(req, res, next) {
+            entryHelpers.editEntry(req.user, req.body.filters, req.params.eid)
+                .then(function(entry){
+                    console.log("ENTRY", entry);
+                    if (! entry){
+                        throw new errors.EntryNotFoundError(req.params.eid);
+                    }
+                    res.json(200, entry);
+                    next();
+                }).catch(errors.EntryNotFoundError, sendError(httpErrors.NotFoundError, next));
+        };
+
         return {
             allEntries: allEntries,
             entryById: entryById,
             createEntry: createEntry,
-            deleteEntry: deleteEntry
+            deleteEntry: deleteEntry,
+            editEntry: editEntry
         };
     };

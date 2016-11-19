@@ -1,4 +1,3 @@
-// TODO:@Wasiur repurpose this logic
 "use strict";
 
 var BasicStrategy = require('passport-http').BasicStrategy;

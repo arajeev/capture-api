@@ -241,7 +241,7 @@ Creates a new entry.
 ### 2.4 Delete an entry: [DEL] `/journal/delete/:entryId`
 #### Description
 Deletes the entry with the given `id`.
-- Endpoint: `/journal/entries/:entryId`
+- Endpoint: `/journal/delete/:entryId`
     - `entryId`: identification for the target entry.
 - Authentication: `[Admin, User]`
 
@@ -256,5 +256,51 @@ Deletes the entry with the given `id`.
 - Success Code: `{204: 'NoContent'}`
 - Error Code: `{401: 'Unauthorized', 404: 'NotFoundError'}`
 
+### 2.5 Edit an entry: [DEL] `/journal/edit/:entryId`
+#### Description
+Edits the entry with the given `id`.
+- Endpoint: `/journal/edit/:entryId`
+    - `entryId`: identification for the target entry.
+- Authentication: `[Admin, User]`
+
+#### Request:
+- Header: `{'Authorization': 'Basic TOKEN'}`
+- Params: `id` of the entry to be edited.
+- Body:
+```javascript
+ {
+    filters {
+        ...
+    }
+}
+```
+Example:
+```javascript
+{
+	"filters": {
+		"text": "I really enjoyed today!",
+		"heading": "Edited heading!",
+		"loc_longitude": -79.3832
+	}
+}
+```
+
+#### Response:
+```javascript
+ {
+    "eid": [INTEGER],
+   "heading": [STRING],
+    "media": [STRING],
+    "loc_latitude": [FLOAT],
+    "loc_longitude": [FLOAT],
+    "updatedAt": [STRING],
+    "createdAt": [STRING],
+    "text": [STRING]
+}
+```
+
+#### Response Status Codes:
+- Success Code: `{200: 'Ok'}`
+- Error Code: `{401: 'Unauthorized', 404: 'NotFoundError'}`
 
 [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/ccb8fcd6415bf48065f2)

@@ -14,7 +14,7 @@ module.exports = function (models, authenticationHelpers) {
             return entries;
         });
     };
-    
+
 
     // Gets a list by the id
     var getEntryById = function getEntryById(user, entryId){
@@ -55,18 +55,37 @@ module.exports = function (models, authenticationHelpers) {
         });
     };
 
-    var deleteEntry = function deleteEntry(req, res, next) {
-       userHelpers.deleteUser(req.params.id)
-           .then(function () {
-               res.send(204);
-               next();
-           });
-   };
+    var deleteEntry = function deleteEntry(entryId) {
+        return models.Entry.find({where: {eid: entryId}})
+        .then(function (entry) {
+            if (!_.isNull(user)) {
+                return entry.destroy();
+            }
+        });
+    };
+
+    var editEntry = function editEntry(user, filters, entryId) {
+        return getEntryById(user, entryId)
+        .then(function(entry) {
+            console.log("FILTER: ", filters);
+            for (var key in filters) {
+                if (filters.hasOwnProperty(key)) {
+                    entry.set(key, filters[key]);
+                }
+            };
+            entry.save().then(function(entry) {
+                // console.log(entry);
+                // return entry;
+            });
+            return entry;
+        });
+    };
 
     return {
         getEntries: getEntries,
         getEntryById: getEntryById,
         createEntry: createEntry,
-        deleteEntry: deleteEntry
+        deleteEntry: deleteEntry,
+        editEntry: editEntry
     };
 };

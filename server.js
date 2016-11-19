@@ -97,13 +97,14 @@ server.get('/user/all', needsGroup('admin'), userHandlers.allUsers); // User rou
 server.get('/user/:uid', passport.authenticate(['basic', 'bearer'], {session: false}), userHandlers.userById); // User route: get user by the id
 server.post('/user/', passport.authenticate(['basic', 'bearer'], {session: false}), userHandlers.login); // User route: get user by the id
 server.post('/user/create/',/* needsGroup('admin')*/ userHandlers.createUser); // User route: create a user
-server.del('/user/delete/:uid', passport.authenticate(['basic', 'bearer'] , {session: false}), userHandlers.deleteUser); // User route: create a user
+server.del('/user/delete/:uid', passport.authenticate(['basic', 'bearer'] , {session: false}), userHandlers.deleteUser); // User route: delete a user
 
 // Entry
 server.get('/journal/entries', passport.authenticate(['basic', 'bearer'], {session: false}), entryHandlers.allEntries);
 server.get('/journal/entries/:eid', passport.authenticate(['basic', 'bearer'], {session: false}), entryHandlers.entryById);
 server.post('/journal/create', passport.authenticate(['basic', 'bearer'], {session: false}), entryHandlers.createEntry);
 server.del('/journal/delete/:eid', passport.authenticate(['basic', 'bearer'], {session: false}), entryHandlers.deleteEntry);
+server.post('/journal/edit/:eid', passport.authenticate(['basic', 'bearer'], {session: false}), entryHandlers.editEntry);
 
 sequelize.authenticate().then(function () {
     console.log('Connection has been established successfully');

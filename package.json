@@ -1,5 +1,5 @@
 {
-  "name": "photo-journal-api",
+  "name": "capture-api",
   "version": "1.0.0",
   "description": "Backend for photo journal application",
   "main": "server.js",
@@ -9,17 +9,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/wrahman0/photo-journal-api.git"
+    "url": ""
   },
   "keywords": [
     "photos"
   ],
-  "author": "Wasiur Rahman",
+  "author": "Capture",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/wrahman0/photo-journal-api/issues"
+    "url": ""
   },
-  "homepage": "https://github.com/wrahman0/photo-journal-api",
+  "homepage": "",
   "devDependencies": {
     "chai": "^2.1.2",
     "chai-as-promised": "^4.3.0",
