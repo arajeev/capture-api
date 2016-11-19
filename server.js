@@ -44,8 +44,8 @@ var server = restify.createServer({
 
 server.use(
   function crossOrigin(req,res,next){
-    res.header("Access-Control-Allow-Origin", "Authorization");
-    res.header("Access-Control-Allow-Headers", "Authorization");
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "*");
     return next();
   }
 );
