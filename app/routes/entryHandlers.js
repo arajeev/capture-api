@@ -21,7 +21,6 @@ module.exports = function (userHelpers, entryHelpers) {
     var entryById = function entryById(req, res, next) {
         entryHelpers.getEntryById(req.user, req.params.eid)
         .then(function(entry){
-            console.log("ENTRIES --------", entry);
             if (!entry){
                 throw new errors.EntryNotFoundError(req.params.eid);
             } else {
@@ -75,7 +74,6 @@ module.exports = function (userHelpers, entryHelpers) {
         var editEntry = function editEntry(req, res, next) {
             entryHelpers.editEntry(req.user, req.body.filters, req.params.eid)
                 .then(function(entry){
-                    console.log("ENTRY", entry);
                     if (! entry){
                         throw new errors.EntryNotFoundError(req.params.eid);
                     }

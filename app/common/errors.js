@@ -4,12 +4,12 @@ var util = require("util");
 var _ = require("lodash");
 
 function UserExists(username) {
-    this.message = "Username exists: " + username;
+    this.message = "Username exists: " + JSON.stringify(username);
 }
 util.inherits(UserExists, Error);
 
 function UserNotFound(username) {
-    this.message = "Username does not exist: " + username;
+    this.message = "Username does not exist: " + JSON.stringify(username);
 }
 util.inherits(UserNotFound, Error);
 

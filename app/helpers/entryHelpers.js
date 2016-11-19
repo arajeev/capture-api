@@ -27,21 +27,7 @@ module.exports = function (models, authenticationHelpers) {
         });
     };
 
-    // Expects a Entry where the eid is not already existing:
-    // {
-    //     {
-    //     "eid": [INTEGER],
-    //     "heading": [STRING],
-    //     "uid": [INTEGER],
-    //     "media": [STRING],
-    //     "loc_latitude": [FLOAT],
-    //     "loc_longitude": [FLOAT],
-    //     "updatedAt": [STRING],
-    //     "createdAt": [STRING],
-    //     "text": [STRING]
-    //     }
-    // }
-
+    // Creates an entry for the given user, using given entryInfo
     var createEntry = function createEntry(user, entryInfo){
         return models.Entry.create({
             heading: entryInfo.heading,
@@ -55,28 +41,28 @@ module.exports = function (models, authenticationHelpers) {
         });
     };
 
+    // deletes entry with the given entryId
     var deleteEntry = function deleteEntry(entryId) {
         return models.Entry.find({where: {eid: entryId}})
         .then(function (entry) {
-            if (!_.isNull(user)) {
+            if (!_.isNull(entry)) {
                 return entry.destroy();
             }
         });
     };
 
+    // edits the given entry and updates it with the given filters
     var editEntry = function editEntry(user, filters, entryId) {
         return getEntryById(user, entryId)
         .then(function(entry) {
-            console.log("FILTER: ", filters);
-            for (var key in filters) {
-                if (filters.hasOwnProperty(key)) {
-                    entry.set(key, filters[key]);
-                }
-            };
-            entry.save().then(function(entry) {
-                // console.log(entry);
-                // return entry;
-            });
+            if (entry != null) {
+                for (var key in filters) {
+                    if (filters.hasOwnProperty(key)) {
+                        entry.set(key, filters[key]);
+                    }
+                };
+                entry.save().then(function(entry) {});
+            }
             return entry;
         });
     };

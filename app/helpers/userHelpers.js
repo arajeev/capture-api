@@ -25,7 +25,6 @@ module.exports = function (models, authenticationHelpers) {
         return models.User.find({
             where: filter,
         }).then(function (user) {
-            console.log('USER FILTER---------------', user);
             if (user === null) {
                 throw new errors.UserNotFoundError(filter);
             } else {
@@ -34,11 +33,11 @@ module.exports = function (models, authenticationHelpers) {
         });
     };
 
+    // user at the given id
     var getUserById = function getUserById(id) {
         return models.User.find({
             where: {uid: id}
         }).then(function (user) {
-            console.log('USER---------------', user);
             if (user === null) {
                 throw new errors.UserNotFoundError({id: id});
             } else {
@@ -47,12 +46,12 @@ module.exports = function (models, authenticationHelpers) {
         });
     };
 
+    // creates a new user with the given info
     var createUser = function createUser(userInfo) {
         return getUserByFilter({username: userInfo.username})
         .then(function () {
             throw new errors.UserExistsError(userInfo.username);
         }).catch(errors.UserNotFoundError, function () {
-            console.log('USER---------------', userInfo);
             userInfo.token = authenticationHelpers.encodePayload(userInfo);
             userInfo.password = authenticationHelpers.generateHashedPassword(userInfo.password);
             return models.User.create({
@@ -67,12 +66,14 @@ module.exports = function (models, authenticationHelpers) {
         });
     };
 
+    // deletes user at given uid
     var deleteUser = function deleteUser(userId) {
         return models.User.find({where: {uid: userId}})
         .then(function (user) {
             if (!_.isNull(user)) {
                 return user.destroy();
             }
+            throw new errors.UserNotFoundError({id: id});
         });
     };
 
