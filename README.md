@@ -209,7 +209,7 @@ Creates a new entry.
 - media is a comma-separated list of media urls.
 
 #### Request:
-- Header: `{'Authorization': 'Bearer TOKEN'}`
+- Header: `{'Authorization': 'Basic TOKEN'}`
 - Body:
 ```javascript
 {
@@ -256,7 +256,7 @@ Deletes the entry with the given `id`.
 - Success Code: `{204: 'NoContent'}`
 - Error Code: `{401: 'Unauthorized', 404: 'NotFoundError'}`
 
-### 2.5 Edit an entry: [DEL] `/journal/edit/:entryId`
+### 2.5 Edit an entry: [POST] `/journal/edit/:entryId`
 #### Description
 Edits the entry with the given `id`.
 - Endpoint: `/journal/edit/:entryId`
