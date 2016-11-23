@@ -36,6 +36,7 @@ module.exports = function (userHelpers, entryHelpers) {
             {name: 'media', in: req.body, required: true},
             {name: 'loc_latitude', in: req.body, required: true},
             {name: 'loc_longitude', in: req.body, required: true},
+            {name: 'address', in: req.body, required: true},
             {name: 'text', in: req.body, required: true},
             {name: 'media', in: req.body, required: true}
         ]).then(function () {
@@ -45,6 +46,7 @@ module.exports = function (userHelpers, entryHelpers) {
                 'media',
                 'loc_latitude',
                 'loc_longitude',
+                'address',
                 'text',
                 'media'
             );
@@ -54,7 +56,8 @@ module.exports = function (userHelpers, entryHelpers) {
                 res.json(201, entry);
                 next();
             }).catch(errors.DuplicateEntryError, sendError(httpErrors.ConflictError, next));
-        })};
+        }).catch(errors.ValidationError, sendError(httpErrors.NotFoundError, next));
+    };
 
         var deleteEntry = function deleteEntry(req, res, next) {
             req.user.getEntries({where: {eid: req.params.eid}})
