@@ -3,12 +3,12 @@
 module.exports = function (sequelize, DataTypes) {
     return sequelize.define('entry', {
         eid: {type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true},
-        heading: {type: DataTypes.STRING},
-        media: {type: DataTypes.STRING},
+        heading: {type: DataTypes.STRING(10000)},
+        media: {type: DataTypes.STRING(10000)},
         loc_longitude: {type: DataTypes.FLOAT},
         loc_latitude: {type: DataTypes.FLOAT},
         address: {type: DataTypes.STRING},
-        text: {type: DataTypes.STRING}
+        text: {type: DataTypes.STRING(10000)}
     }, {
         timestamps: true,
         classMethods: {
