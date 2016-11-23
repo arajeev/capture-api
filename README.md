@@ -103,7 +103,7 @@ Creates a new user.
 ```
 #### Response Status Codes:
 - Success Code: `{201: 'Created'}`
-- Error Code: `{401: 'Unauthorized', 409: 'ConflictError'}`
+- Error Code: `{401: 'Unauthorized', 409: 'ConflictError', 404: 'MissingArgument'}`
 
 ### 1.4 Delete a user: [DEL] `/user/delete/:id`
 #### Description
@@ -157,12 +157,14 @@ Login the user.
         {
             "eid": [INTEGER],
             "heading": [STRING],
-            "uid": [INTEGER],
             "media": [STRING],
-            "location": [STRING],
+            "loc_latitude": [FLOAT],
+            "loc_longitude": [FLOAT],
+            "address": [STRING],
             "updatedAt": [STRING],
             "createdAt": [STRING],
-            "text": [STRING]
+            "text": [STRING],
+            "userUid": [INTEGER]
         },
     ]
 }
@@ -184,17 +186,18 @@ Get entry with the specified `entryid` from current user.
 
 #### Response:
 ```javascript
-     {
-        "eid": [INTEGER],
-        "heading": [STRING],
-        "uid": [INTEGER],
-        "media": [STRING],
-        "loc_latitude": [FLOAT],
-        "loc_longitude": [FLOAT],
-        "updatedAt": [STRING],
-        "createdAt": [STRING],
-        "text": [STRING]
-    }
+{
+    "eid": [INTEGER],
+    "heading": [STRING],
+    "media": [STRING],
+    "loc_latitude": [FLOAT],
+    "loc_longitude": [FLOAT],
+    "address": [STRING],
+    "updatedAt": [STRING],
+    "createdAt": [STRING],
+    "text": [STRING],
+    "userUid": [INTEGER]
+}
 ```
 #### Response Status Codes:
 - Success Code: `{200: 'OK'}`
@@ -217,26 +220,29 @@ Creates a new entry.
     "media": [STRING],
     "loc_latitude": [FLOAT],
     "loc_longitude": [FLOAT],
+    "address": [STRING],
     "text": [STRING]
 }
 ```
 
 #### Response:
 ```javascript
- {
+{
     "eid": [INTEGER],
-   "heading": [STRING],
+    "heading": [STRING],
     "media": [STRING],
     "loc_latitude": [FLOAT],
     "loc_longitude": [FLOAT],
+    "address": [STRING],
     "updatedAt": [STRING],
     "createdAt": [STRING],
-    "text": [STRING]
+    "text": [STRING],
+    "userUid": [INTEGER]
 }
 ```
 #### Response Status Codes:
 - Success Code: `{201: 'Created'}`
-- Error Code: `{401: 'Unauthorized'}`
+- Error Code: `{401: 'Unauthorized', 404: 'MissingArgument'}`
 
 ### 2.4 Delete an entry: [DEL] `/journal/delete/:entryId`
 #### Description
@@ -265,7 +271,6 @@ Edits the entry with the given `id`.
 
 #### Request:
 - Header: `{'Authorization': 'Basic TOKEN'}`
-- Params: `id` of the entry to be edited.
 - Body:
 ```javascript
  {
@@ -287,15 +292,17 @@ Example:
 
 #### Response:
 ```javascript
- {
+{
     "eid": [INTEGER],
-   "heading": [STRING],
+    "heading": [STRING],
     "media": [STRING],
     "loc_latitude": [FLOAT],
     "loc_longitude": [FLOAT],
+    "address": [STRING],
     "updatedAt": [STRING],
     "createdAt": [STRING],
-    "text": [STRING]
+    "text": [STRING],
+    "userUid": [INTEGER]
 }
 ```
 
